@@ -1,0 +1,46 @@
+# ========================
+# Global Git Ignore (luxurious/.gitignore)
+# Covers Nest.js (server) & Next.js (web)
+# ========================
+
+# Node.js dependencies (applies to both server and web)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables (applies to both server and web)
+.env
+.env.local
+.env.development
+.env.development.local
+.env.production
+.env.production.local
+
+# Build and cache directories
+dist/              # Nest.js build
+.cache/            # Caching files
+coverage/          # Code coverage reports
+tmp/               # Temp files
+
+# Next.js specific ignores
+.next/             # Next.js build directory
+out/               # Next.js exported static files
+public/build/      # Next.js build artifacts
+
+# Docker related files
+pgdata/
+docker-compose.override.yml
+
+# OS / Editor specific files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
