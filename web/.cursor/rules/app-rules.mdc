@@ -1,0 +1,8 @@
+---
+description: This is a dress booking app.
+globs: 
+alwaysApply: false
+---
+# Brief about application
+- This app is a dashbaord for dress booking
+- It's built based on next.js and shadcn/ui

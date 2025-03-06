@@ -1,3 +1,12 @@
 {
-  "/page": "app/page.js"
+  "/page": "app/page.js",
+  "/login/page": "app/login/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/dashboard/customers/page": "app/dashboard/customers/page.js",
+  "/dashboard/bookings/page": "app/dashboard/bookings/page.js",
+  "/dashboard/dresses/page": "app/dashboard/dresses/page.js",
+  "/dashboard/settings/page": "app/dashboard/settings/page.js",
+  "/reset-password/page": "app/reset-password/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/_not-found/page": "app/_not-found/page.js"
 }
