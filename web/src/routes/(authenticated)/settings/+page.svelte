@@ -18,10 +18,10 @@
   });
   
   // Business information
-  let businessName = 'The LUXURIOUS';
-  let businessEmail = 'info@luxurious.com';
-  let businessPhone = '+1 (555) 123-4567';
-  let businessAddress = '123 Fashion St, New York, NY 10001';
+  let businessName = $state('The LUXURIOUS');
+  let businessEmail = $state('info@luxurious.com');
+  let businessPhone = $state('+1 (555) 123-4567');
+  let businessAddress = $state('123 Fashion St, New York, NY 10001');
   
   // Save business information
   function saveBusinessInfo() {
@@ -43,7 +43,7 @@
   <p class="text-muted-foreground">{$t('systemSettings')}</p>
   
   <div class="mt-6">
-    <Tabs defaultValue="business" class="w-full">
+    <Tabs value="business" class="w-full">
       <TabsList class="grid w-full grid-cols-3">
         <TabsTrigger value="business">{$t('businessInfo')}</TabsTrigger>
         <TabsTrigger value="users">{$t('userManagement')}</TabsTrigger>
@@ -76,7 +76,7 @@
             </div>
           </CardContent>
           <CardFooter>
-            <Button on:click={saveBusinessInfo}>{$t('save')}</Button>
+            <Button onclick={saveBusinessInfo}>{$t('save')}</Button>
           </CardFooter>
         </Card>
       </TabsContent>
@@ -104,16 +104,16 @@
           <CardContent class="space-y-4">
             <div class="space-y-2">
               <Label for="language">{$t('language')}</Label>
-              <Select onSelectedChange={(value) => changeLanguage(value as string)} value={$language.code}>
-                <SelectTrigger id="language">
-                  <SelectValue placeholder={$t('selectLanguage')} />
-                </SelectTrigger>
-                <SelectContent>
-                  {#each languages as lang}
-                    <SelectItem value={lang.code}>{lang.name}</SelectItem>
-                  {/each}
-                </SelectContent>
-              </Select>
+              <div class="flex gap-2">
+                {#each languages as lang}
+                  <Button 
+                    variant={$language.code === lang.code ? "default" : "outline"}
+                    onclick={() => changeLanguage(lang.code)}
+                  >
+                    {lang.name}
+                  </Button>
+                {/each}
+              </div>
             </div>
           </CardContent>
         </Card>

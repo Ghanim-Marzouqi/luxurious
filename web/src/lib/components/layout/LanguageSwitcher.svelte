@@ -32,7 +32,9 @@
   <DropdownMenuContent align="end">
     {#each languages as lang}
       <DropdownMenuItem on:click={() => setLanguage(lang.code)}>
-        {lang.name} {currentLanguage.code === lang.code ? '✓' : ''}
+        <span class={lang.code === 'ar' ? 'font-tajawal' : ''}>
+          {lang.name} {currentLanguage.code === lang.code ? '✓' : ''}
+        </span>
       </DropdownMenuItem>
     {/each}
   </DropdownMenuContent>

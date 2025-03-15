@@ -8,6 +8,7 @@
   import { dashboardApi } from '$lib/services/api';
   import { toast } from 'svelte-sonner';
   import { Users, CalendarClock, Shirt, DollarSign } from 'lucide-svelte';
+  import type { RecentActivity, Booking } from '$lib/types';
   
   // Dashboard data
   let stats = {
@@ -16,8 +17,9 @@
     availableDresses: 0,
     totalCustomers: 0
   };
-  let recentActivities = [];
-  let upcomingBookings = [];
+  
+  let recentActivities: RecentActivity[] = [];
+  let upcomingBookings: Booking[] = [];
   let isLoading = true;
   
   // Fetch dashboard data

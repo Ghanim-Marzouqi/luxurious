@@ -186,7 +186,19 @@ const translations: TranslationDictionary = {
     resetLinkSentDescription: 'We have sent a password reset link to your email',
     resetLinkSentLong: 'We have sent a password reset link to your email. Please check your inbox and follow the instructions to reset your password.',
     backToLogin: 'Back to Login',
-    rememberPassword: 'Remember your password?'
+    rememberPassword: 'Remember your password?',
+    
+    // Profile page
+    manageYourProfile: 'Manage your profile settings and preferences',
+    profileInformation: 'Profile Information',
+    updateYourProfileDetails: 'Update your profile details',
+    changePassword: 'Change Password',
+    updateYourPassword: 'Update your password',
+    currentPassword: 'Current Password',
+    newPassword: 'New Password',
+    emailCannotBeChanged: 'Email address cannot be changed',
+    profileUpdated: 'Profile updated successfully',
+    passwordChanged: 'Password changed successfully',
   },
   ar: {
     // Common
@@ -338,7 +350,19 @@ const translations: TranslationDictionary = {
     resetLinkSentDescription: 'لقد أرسلنا رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني',
     resetLinkSentLong: 'لقد أرسلنا رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني. يرجى التحقق من صندوق الوارد الخاص بك واتباع التعليمات لإعادة تعيين كلمة المرور.',
     backToLogin: 'العودة إلى تسجيل الدخول',
-    rememberPassword: 'هل تتذكر كلمة المرور؟'
+    rememberPassword: 'هل تتذكر كلمة المرور؟',
+    
+    // Profile page
+    manageYourProfile: 'إدارة إعدادات وتفضيلات ملفك الشخصي',
+    profileInformation: 'معلومات الملف الشخصي',
+    updateYourProfileDetails: 'تحديث تفاصيل ملفك الشخصي',
+    changePassword: 'تغيير كلمة المرور',
+    updateYourPassword: 'تحديث كلمة المرور الخاصة بك',
+    currentPassword: 'كلمة المرور الحالية',
+    newPassword: 'كلمة المرور الجديدة',
+    emailCannotBeChanged: 'لا يمكن تغيير عنوان البريد الإلكتروني',
+    profileUpdated: 'تم تحديث الملف الشخصي بنجاح',
+    passwordChanged: 'تم تغيير كلمة المرور بنجاح',
   }
 };
 

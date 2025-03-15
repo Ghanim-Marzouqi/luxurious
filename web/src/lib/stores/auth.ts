@@ -5,8 +5,8 @@ import { browser } from '$app/environment';
 // Initialize auth state
 const initialState: AuthState = {
   user: null,
-  token: browser ? localStorage.getItem('token') : null,
-  isAuthenticated: browser ? !!localStorage.getItem('token') : false,
+  token: browser ? (localStorage.getItem('token') || sessionStorage.getItem('token')) : null,
+  isAuthenticated: browser ? !!(localStorage.getItem('token') || sessionStorage.getItem('token')) : false,
   isLoading: false
 };
 
@@ -33,9 +33,22 @@ const createAuthStore = () => {
         
         const mockToken = 'mock-jwt-token';
         
-        // Always store token in localStorage for demo purposes
+        // Store token based on rememberMe preference
         if (browser) {
-          localStorage.setItem('token', mockToken);
+          if (credentials.rememberMe) {
+            // Store in localStorage for persistent sessions
+            localStorage.setItem('token', mockToken);
+            // Also store email for convenience when "Remember me" is checked
+            localStorage.setItem('rememberedEmail', credentials.email);
+            // Clear any existing sessionStorage token
+            sessionStorage.removeItem('token');
+          } else {
+            // Store in sessionStorage for session-only persistence
+            sessionStorage.setItem('token', mockToken);
+            // Clear any existing localStorage token and remembered email
+            localStorage.removeItem('token');
+            localStorage.removeItem('rememberedEmail');
+          }
         }
         
         // Update store
@@ -74,7 +87,12 @@ const createAuthStore = () => {
     },
     logout: () => {
       if (browser) {
+        // Remove authentication tokens
         localStorage.removeItem('token');
+        sessionStorage.removeItem('token');
+        
+        // Note: We're intentionally NOT removing 'rememberedEmail' from localStorage
+        // This allows the email to be pre-filled when the user returns to the login page
       }
       
       set({
@@ -83,6 +101,13 @@ const createAuthStore = () => {
         isAuthenticated: false,
         isLoading: false
       });
+    },
+    // Get remembered email if it exists
+    getRememberedEmail: () => {
+      if (browser) {
+        return localStorage.getItem('rememberedEmail') || '';
+      }
+      return '';
     },
     resetPassword: async (request: ResetPasswordRequest) => {
       update(state => ({ ...state, isLoading: true }));
@@ -122,10 +147,11 @@ const createAuthStore = () => {
       try {
         // For demo purposes, we'll always authenticate the user
         // In a real application, we would validate the token with the server
-        const token = browser ? localStorage.getItem('token') : null;
+        const token = browser ? (localStorage.getItem('token') || sessionStorage.getItem('token')) : null;
         
         // If there's no token, create a mock one for demo purposes
         if (!token && browser) {
+          // For demo, store in localStorage by default
           localStorage.setItem('token', 'mock-jwt-token');
         }
         
@@ -151,6 +177,8 @@ const createAuthStore = () => {
       } catch (error) {
         if (browser) {
           localStorage.removeItem('token');
+          sessionStorage.removeItem('token');
+          // Note: We're intentionally NOT removing 'rememberedEmail' from localStorage
         }
         
         update(state => ({

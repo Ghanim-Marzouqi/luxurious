@@ -8,11 +8,12 @@
   import { goto } from '$app/navigation';
   import { toast } from 'svelte-sonner';
   import { isValidEmail } from '$lib/utils';
+  import { LanguageSwitcher } from '$lib/components/layout';
   
-  let email = '';
-  let isLoading = false;
-  let emailSent = false;
-  let error = '';
+  let email = $state('');
+  let isLoading = $state(false);
+  let emailSent = $state(false);
+  let error = $state('');
   
   // Redirect if already authenticated
   $effect(() => {
@@ -54,8 +55,11 @@
 </script>
 
 <div class="container flex h-screen w-screen flex-col items-center justify-center">
+  <div class="absolute top-4 right-4">
+    <LanguageSwitcher />
+  </div>
   <div class="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
-    <div class="flex flex-col space-y-2 text-center">
+    <div class="flex flex-col items-center justify-center space-y-2 text-center w-full">
       <h1 class="text-2xl font-semibold tracking-tight text-primary">{$t('appName')}</h1>
       <p class="text-sm text-muted-foreground">
         {emailSent ? $t('checkYourEmail') : $t('resetYourPassword')}
@@ -63,15 +67,9 @@
     </div>
     
     <Card>
-      <CardHeader>
-        <CardTitle>{$t('resetPassword')}</CardTitle>
-        <CardDescription>
-          {emailSent ? $t('resetLinkSentDescription') : $t('enterYourEmail')}
-        </CardDescription>
-      </CardHeader>
       <CardContent>
         {#if !emailSent}
-          <form on:submit|preventDefault={handleResetPassword} class="space-y-4">
+          <form onsubmit={(e) => { e.preventDefault(); handleResetPassword(); }} class="space-y-4">
             <div class="space-y-2">
               <Label for="email">{$t('email')}</Label>
               <Input 
@@ -100,14 +98,14 @@
             <p class="text-sm text-muted-foreground mb-4">
               {$t('resetLinkSentLong')}
             </p>
-            <Button variant="outline" on:click={() => goto('/auth/login')}>
+            <Button variant="outline" onclick={() => goto('/auth/login')}>
               {$t('backToLogin')}
             </Button>
           </div>
         {/if}
       </CardContent>
       <CardFooter>
-        <div class="text-center w-full">
+        <div class="flex items-center justify-center text-center w-full">
           <a href="/auth/login" class="text-xs text-primary hover:underline">
             {$t('rememberPassword')}
           </a>

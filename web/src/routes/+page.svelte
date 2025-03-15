@@ -22,7 +22,7 @@
     {$t('appDescription')}
   </p>
   <div class="mt-8 flex flex-col sm:flex-row gap-4">
-    <Button on:click={() => goto('/auth/login')} size="lg">
+    <Button onclick={() => goto('/auth/login')} size="lg">
       {$t('login')}
     </Button>
   </div>

@@ -9,12 +9,23 @@
   import { goto } from '$app/navigation';
   import { toast } from 'svelte-sonner';
   import { isValidEmail } from '$lib/utils';
+  import { LanguageSwitcher } from '$lib/components/layout';
+  import { onMount } from 'svelte';
   
-  let email = '';
-  let password = '';
-  let rememberMe = false;
-  let isLoading = false;
-  let errors = { email: '', password: '' };
+  let email = $state('');
+  let password = $state('');
+  let rememberMe = $state(false);
+  let isLoading = $state(false);
+  let errors = $state({ email: '', password: '' });
+  
+  // Initialize with remembered email if available
+  onMount(() => {
+    const rememberedEmail = auth.getRememberedEmail();
+    if (rememberedEmail) {
+      email = rememberedEmail;
+      rememberMe = true;
+    }
+  });
   
   // Redirect if already authenticated
   $effect(() => {
@@ -65,70 +76,21 @@
       isLoading = false;
     }
   }
-  
-  // Quick login as admin for demo purposes
-  async function loginAsAdmin() {
-    isLoading = true;
-    
-    try {
-      const result = await auth.login({ 
-        email: 'admin@luxurious.com', 
-        password: 'password', 
-        rememberMe: true 
-      });
-      
-      if (result.success) {
-        toast.success($t('loginSuccessful'));
-        goto('/dashboard');
-      } else {
-        toast.error(result.error || $t('somethingWentWrong'));
-      }
-    } catch (error) {
-      toast.error($t('somethingWentWrong'));
-    } finally {
-      isLoading = false;
-    }
-  }
-  
-  // Quick login as staff for demo purposes
-  async function loginAsStaff() {
-    isLoading = true;
-    
-    try {
-      const result = await auth.login({ 
-        email: 'staff@luxurious.com', 
-        password: 'password', 
-        rememberMe: true 
-      });
-      
-      if (result.success) {
-        toast.success($t('loginSuccessful'));
-        goto('/dashboard');
-      } else {
-        toast.error(result.error || $t('somethingWentWrong'));
-      }
-    } catch (error) {
-      toast.error($t('somethingWentWrong'));
-    } finally {
-      isLoading = false;
-    }
-  }
 </script>
 
 <div class="container flex h-screen w-screen flex-col items-center justify-center">
+  <div class="absolute top-4 right-4">
+    <LanguageSwitcher />
+  </div>
   <div class="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
-    <div class="flex flex-col space-y-2 text-center">
+    <div class="flex flex-col items-center justify-center space-y-2 text-center w-full">
       <h1 class="text-2xl font-semibold tracking-tight text-primary">{$t('appName')}</h1>
       <p class="text-sm text-muted-foreground">{$t('loginToYourAccount')}</p>
     </div>
     
     <Card>
-      <CardHeader>
-        <CardTitle>{$t('login')}</CardTitle>
-        <CardDescription>{$t('enterYourCredentials')}</CardDescription>
-      </CardHeader>
       <CardContent>
-        <form on:submit|preventDefault={handleLogin} class="space-y-4">
+        <form onsubmit={(e) => { e.preventDefault(); handleLogin(); }} class="space-y-4">
           <div class="space-y-2">
             <Label for="email">{$t('email')}</Label>
             <Input 
@@ -147,9 +109,6 @@
           <div class="space-y-2">
             <div class="flex items-center justify-between">
               <Label for="password">{$t('password')}</Label>
-              <a href="/auth/reset-password" class="text-xs text-primary hover:underline">
-                {$t('forgotPassword')}
-              </a>
             </div>
             <Input 
               id="password" 
@@ -163,11 +122,16 @@
             {/if}
           </div>
           
-          <div class="flex items-center space-x-2">
-            <Checkbox id="remember" bind:checked={rememberMe} />
-            <Label for="remember" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-              {$t('rememberMe')}
-            </Label>
+          <div class="flex items-center justify-between">
+            <div class="flex items-center">
+              <Checkbox id="remember" bind:checked={rememberMe} />
+              <Label for="remember" class="mx-2 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                {$t('rememberMe')}
+              </Label>
+            </div>
+            <a href="/auth/reset-password" class="text-xs text-primary hover:underline">
+              {$t('forgotPassword')}
+            </a>
           </div>
           
           <Button type="submit" class="w-full" disabled={isLoading}>
@@ -178,25 +142,7 @@
             {/if}
           </Button>
         </form>
-        
-        <!-- Demo login buttons -->
-        <div class="mt-4 space-y-2">
-          <p class="text-xs text-center text-muted-foreground">Quick login for demo:</p>
-          <div class="flex gap-2">
-            <Button variant="outline" class="flex-1" size="sm" on:click={loginAsAdmin} disabled={isLoading}>
-              Admin
-            </Button>
-            <Button variant="outline" class="flex-1" size="sm" on:click={loginAsStaff} disabled={isLoading}>
-              Staff
-            </Button>
-          </div>
-        </div>
       </CardContent>
-      <CardFooter>
-        <p class="text-xs text-center text-muted-foreground w-full">
-          {$t('demoCredentials')}: admin@luxurious.com / password
-        </p>
-      </CardFooter>
     </Card>
   </div>
 </div> 
