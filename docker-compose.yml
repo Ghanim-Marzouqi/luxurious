@@ -50,7 +50,7 @@ services:
     container_name: web
     restart: always
     environment:
-      NEXT_PUBLIC_API_URL: http://server:4000
+      PUBLIC_API_URL: http://server:4000
     ports:
       - "3000:3000"
     depends_on:
