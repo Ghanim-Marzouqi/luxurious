@@ -1,0 +1,10 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Project Specs and Rules
+- This is Nest.js API which works as a server for a frontend app.
+- Don't include any example or mock data.
+- Don't update any file not related to the task or issue.
+- Don't run or give a command to run the app as I'm running it myself.
