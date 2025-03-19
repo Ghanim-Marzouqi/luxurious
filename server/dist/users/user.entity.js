@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const typeorm_1 = require("typeorm");
 const class_transformer_1 = require("class-transformer");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const swagger_1 = require("@nestjs/swagger");
 let User = class User {
     id;
@@ -24,7 +24,8 @@ let User = class User {
     createdAt;
     updatedAt;
     async hashPassword() {
-        this.password = await bcrypt.hash(this.password, 10);
+        const salt = await bcrypt.genSalt(12);
+        this.password = await bcrypt.hash(this.password, salt);
     }
     async validatePassword(password) {
         return bcrypt.compare(password, this.password);
